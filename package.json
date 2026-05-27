@@ -1,4 +1,6 @@
 {
+	"name": "deepseek-balance",
+	"type": "module",
 	"devDependencies": {
 		"@types/node": "^25.9.1"
 	}
