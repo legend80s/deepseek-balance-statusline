@@ -1,0 +1,19 @@
+{
+  "name": "deepseek-balance-statusline",
+  "owner": {
+    "name": "legend80s"
+  },
+  "metadata": {
+    "description": "Display DeepSeek account balance in Claude Code status line when the active model is DeepSeek",
+    "version": "0.0.1"
+  },
+  "plugins": [
+    {
+      "name": "deepseek-balance-statusline",
+      "source": "./",
+      "description": "显示 DeepSeek 账户余额在 Claude Code 底部状态栏。当模型切换到 DeepSeek 时自动显示，非 DeepSeek 模型无干扰。",
+      "category": "utilities",
+      "tags": ["deepseek", "balance", "statusline", "utilities"]
+    }
+  ]
+}

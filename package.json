@@ -1,7 +1,29 @@
 {
-	"name": "deepseek-balance-statusline",
-	"type": "module",
-	"devDependencies": {
-		"@types/node": "^25.9.1"
-	}
+  "name": "deepseek-balance-statusline",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "Real-time DeepSeek balance statusline for Claude Code",
+  "main": "deepseek-balance-statusline.ts",
+  "files": [
+    "deepseek-balance-statusline.ts",
+    "utils/",
+    "commands/",
+    ".claude-plugin/"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "npm run build && node --test",
+    "test:coverage": "npm run build && c8 --reporter=text --reporter=lcov node --test",
+    "test:update-snapshots": "UPDATE_SNAPSHOTS=1 npm test",
+    "test:stdin": "npm run build && echo '{\"model\":{\"display_name\":\"Opus\"},\"context_window\":{\"current_usage\":{\"input_tokens\":45000},\"context_window_size\":200000},\"transcript_path\":\"/tmp/test.jsonl\"}' | node deepseek-balance-statusline.ts"
+  },
+  "keywords": [
+    "claude-code",
+    "statusline",
+    "hud"
+  ],
+  "devDependencies": {
+    "@types/node": "^25.9.1"
+  }
 }
