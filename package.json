@@ -1,5 +1,5 @@
 {
-	"name": "deepseek-balance",
+	"name": "deepseek-balance-statusline",
 	"type": "module",
 	"devDependencies": {
 		"@types/node": "^25.9.1"
