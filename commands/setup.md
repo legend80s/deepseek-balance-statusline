@@ -96,7 +96,7 @@ Read the existing settings file:
 
 **macOS/Linux**:
 ```bash
-cat "${CLAUDE_CONFIG_DIR:-$HOME/.claude}/settings.local.json" 2>/dev/null || echo "NOT_FOUND"
+cat "${CLAUDE_CONFIG_DIR:-$HOME/.claude}/settings.json" 2>/dev/null || echo "NOT_FOUND"
 ```
 
 **If file doesn't exist or has no statusLine**, construct the command.
