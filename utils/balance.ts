@@ -21,7 +21,7 @@ export function renderBalance({
   currency,
 }: BalanceInfo): string {
   const color = resolveColorByLevel(Number(total_balance))
-  const symbol = currency === "CNY" ? "¥" : "$"
+  const symbol = currency === "CNY" ? "¥" : currency === "USD" ? "$" : ""
   return `DeepSeek${color} 💰 ${symbol}${total_balance} ${colors.reset}`
 }
 
