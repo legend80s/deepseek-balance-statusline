@@ -1,7 +1,7 @@
 {
   "name": "deepseek-balance-statusline",
   "description": "Display DeepSeek account balance in Claude Code status line when the active model is DeepSeek",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": {
     "name": "legend80s"
   },
