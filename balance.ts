@@ -1,6 +1,6 @@
 const {
   BASE_URL = "https://api.deepseek.com",
-  DEEPSEEK_API_KEY_FOR_BALANCE: API_KEY,
+  DEEP_SEEK_API_KEY_FOR_BALANCE: API_KEY,
 } = process.env
 
 // console.log("BASE_URL:", BASE_URL)
@@ -30,7 +30,7 @@ async function getBalanceCore(
     })
     if (!resp.ok) {
       throw new Error(
-        `getBalance failed: HTTP ${resp.status} ${resp.statusText}`,
+        `getBalance failed: HTTP ${resp.status} ${resp.statusText} DEEP_SEEK_API_KEY_FOR_BALANCE (${API_KEY})`,
         { cause: resp },
       )
     }

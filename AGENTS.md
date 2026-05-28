@@ -4,7 +4,7 @@ Claude Code status line plugin — displays DeepSeek account balance when active
 
 ## Entrypoints
 
-- `balance.ts` — Core module: fetches balance from `https://api.deepseek.com/user/balance` via `GET`, auth via `Authorization: Bearer` header using `DEEPSEEK_API_KEY_FOR_BALANCE` env var. Exports `getBalance()`.
+- `balance.ts` — Core module: fetches balance from `https://api.deepseek.com/user/balance` via `GET`, auth via `Authorization: Bearer` header using `DEEP_SEEK_API_KEY_FOR_BALANCE` env var. Exports `getBalance()`.
 - `deepseek-balance-statusline.ts` — CLI script (shebang `#!/usr/bin/env node`). Reads JSON from stdin, checks `model.display_name`, and if it contains "deepseek" (case-insensitive), dynamically imports `getBalance()` and writes balance to stdout with `\r` (carriage return for statusline update).
 
 ## Commands
@@ -17,7 +17,7 @@ pnpm install
 cat test/fixtures/test-data-deepseek.json | node deepseek-balance-statusline.ts
 
 # Run with fixtures for balance output
-DEEPSEEK_API_KEY_FOR_BALANCE=sk-xxx cat test/fixtures/test-data-deepseek.json | node deepseek-balance-statusline.ts
+DEEP_SEEK_API_KEY_FOR_BALANCE=sk-xxx cat test/fixtures/test-data-deepseek.json | node deepseek-balance-statusline.ts
 
 # Lint & format (Biome, no semicolons, double quotes)
 pnpm biome check --write .
@@ -26,7 +26,7 @@ pnpm biome check --write .
 ## Config
 
 - **Biome**: space indent, `semicolons: "asNeeded"`, `quoteStyle: "double"`, organize imports on save.
-- **ENV**: `DEEPSEEK_API_KEY_FOR_BALANCE` required; `BASE_URL` optional (defaults to `https://api.deepseek.com`).
+- **ENV**: `DEEP_SEEK_API_KEY_FOR_BALANCE` required; `BASE_URL` optional (defaults to `https://api.deepseek.com`).
 - **ESM**: `"type": "module"` in package.json. All imports use `.ts` extension (node runtime with ts support).
 
 ## Debugging

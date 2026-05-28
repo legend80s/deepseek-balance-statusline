@@ -38,10 +38,10 @@ Detect the platform:
 
 ## Step 2: Check Current Configuration
 
-Check if `DEEPSEEK_API_KEY_FOR_BALANCE` is already set:
+Check if `DEEP_SEEK_API_KEY_FOR_BALANCE` is already set:
 
 ```bash
-grep -q 'export DEEPSEEK_API_KEY_FOR_BALANCE=' ~/.zshrc 2>/dev/null && echo "FOUND" || echo "NOT_FOUND"
+grep -q 'export DEEP_SEEK_API_KEY_FOR_BALANCE=' ~/.zshrc 2>/dev/null && echo "FOUND" || echo "NOT_FOUND"
 ```
 
 If `FOUND`, ask the user if they want to update it or skip.
@@ -57,12 +57,12 @@ If the user doesn't have a key, direct them to https://platform.deepseek.com/api
 
 ## Step 4: Write Environment Variable
 
-**If DEEPSEEK_API_KEY_FOR_BALANCE was NOT found in shell config:**
+**If DEEP_SEEK_API_KEY_FOR_BALANCE was NOT found in shell config:**
 
 Append to the detected shell config file (e.g. `~/.zshrc`):
 
 ```bash
-echo '\n# DeepSeek balance statusline\nexport DEEPSEEK_API_KEY_FOR_BALANCE="sk-xxx"' >> ~/.zshrc
+echo '\n# DeepSeek balance statusline\nexport DEEP_SEEK_API_KEY_FOR_BALANCE="sk-xxx"' >> ~/.zshrc
 ```
 
 Replace `sk-xxx` with the user's actual key. Use single quotes around the echo string to prevent shell expansion of `$`.
@@ -71,7 +71,7 @@ Replace `sk-xxx` with the user's actual key. Use single quotes around the echo s
 
 Replace the existing line:
 ```bash
-sed -i '' 's|export DEEPSEEK_API_KEY_FOR_BALANCE=.*|export DEEPSEEK_API_KEY_FOR_BALANCE="sk-xxx"|' ~/.zshrc
+sed -i '' 's|export DEEP_SEEK_API_KEY_FOR_BALANCE=.*|export DEEP_SEEK_API_KEY_FOR_BALANCE="sk-xxx"|' ~/.zshrc
 ```
 
 Use the appropriate shell config path detected in Step 1.

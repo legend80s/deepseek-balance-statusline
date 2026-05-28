@@ -66,7 +66,7 @@ Claude Code → stdin JSON → deepseek-balance-statusline → stdout → displa
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
-| `DEEPSEEK_API_KEY_FOR_BALANCE` | Yes | — | DeepSeek API key with balance query permission |
+| `DEEP_SEEK_API_KEY_FOR_BALANCE` | Yes | — | DeepSeek API key with balance query permission |
 | `BASE_URL` | No | `https://api.deepseek.com` | Custom API base URL (e.g. for proxy) |
 
 ## Requirements
@@ -94,7 +94,7 @@ pnpm install
 cat test/fixtures/test-data-deepseek.json | node deepseek-balance-statusline.ts
 
 # Test with actual balance
-DEEPSEEK_API_KEY_FOR_BALANCE=sk-xxx cat test/fixtures/test-data-deepseek.json | node deepseek-balance-statusline.ts
+DEEP_SEEK_API_KEY_FOR_BALANCE=sk-xxx cat test/fixtures/test-data-deepseek.json | node deepseek-balance-statusline.ts
 
 # Lint & format
 pnpm biome check --write .

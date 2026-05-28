@@ -7,7 +7,10 @@ log(`start`)
 
 let input = ""
 
-process.stdin.on("data", (chunk) => (input += chunk))
+process.stdin.on("data", (chunk) => {
+  input += chunk
+})
+
 process.stdin.on("end", async () => {
   try {
     const data = JSON.parse(input)
@@ -21,7 +24,7 @@ process.stdin.on("end", async () => {
       log(`DeepSeek 💰 ¥ LOADING`)
       const { getBalance } = await import("./balance.ts")
 
-      log(`getBalance is: ${typeof getBalance}|${getBalance.toString()}`)
+      // log(`getBalance is: ${typeof getBalance}|${getBalance.toString()}`)
 
       const rmb = await getBalance()
       log(`getBalance rmb: ${rmb}|${typeof rmb}`)
@@ -30,7 +33,7 @@ process.stdin.on("end", async () => {
         `\rDeepSeek${colors.green} 💰 ¥${rmb}${colors.reset}`,
       )
     } else {
-      // console.log("")
+      // console.log("no DeepSeek")
     }
   } catch (err) {
     // console.log(err)
@@ -40,4 +43,6 @@ process.stdin.on("end", async () => {
     // @ts-expect-error
     log(`${msg}→stack:${err.stack}`)
   }
+
+  // console.log("done")
 })
