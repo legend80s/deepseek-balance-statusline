@@ -22,7 +22,7 @@ export function renderBalance({
 }: BalanceInfo): string {
   const color = resolveColorByLevel(Number(total_balance))
   const symbol = currency === "CNY" ? "¥" : currency === "USD" ? "$" : ""
-  return `🐋${color} ${symbol}${total_balance} ${colors.reset}`
+  return `🐳${color} ${symbol}${total_balance} ${colors.reset}`
 }
 
 function resolveColorByLevel(total_balance: number): string {
