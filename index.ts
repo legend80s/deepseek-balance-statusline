@@ -29,7 +29,7 @@ process.stdin.on("end", async () => {
       // log(`getBalance is: ${typeof getBalance}|${getBalance.toString()}`)
 
       const { total_balance, currency } = await getBalance()
-      log(`getBalance: ${total_balance}|${typeof total_balance}`)
+      // console.log(`getBalance: ${total_balance}|${typeof total_balance}`)
 
       process.stdout.write(renderBalance({ total_balance, currency }))
     } else {
