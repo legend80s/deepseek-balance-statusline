@@ -1,5 +1,7 @@
 # deepseek-balance-statusline
 
+> 🌐 English README | [中文文档](README.zh-CN.md)
+
 A [Claude Code](https://claude.ai) plugin that shows your DeepSeek account balance in the status line when the active model is DeepSeek.
 
 ```text
@@ -35,6 +37,8 @@ claude
 ```
 /deepseek-balance-statusline:setup
 ```
+
+> If stuck here, follow Manual Installation **Step 3: Configure the status line**
 
 Done! Restart Claude Code to load the new statusLine config, then the balance will appear when you use a DeepSeek model.
 
@@ -140,7 +144,7 @@ Claude Code → stdin JSON → deepseek-balance-statusline → stdout → displa
 ## Requirements
 
 - Claude Code
-- Node.js 18+
+- **Node.js 22.18.0+** (only this version and higher can run TypeScript files directly).
 - A DeepSeek API key from https://platform.deepseek.com/api_keys
 
 ## Debugging

@@ -21,7 +21,7 @@ Detect the platform:
    ```bash
    command -v node 2>/dev/null
    ```
-   If empty, ask the user to install Node.js 18+ from https://nodejs.org/
+   If empty, ask the user to install Node.js 22.18.0+ from https://nodejs.org/ (only this version and higher can run TypeScript files directly).
 
 3. Determine source file:
    ```bash

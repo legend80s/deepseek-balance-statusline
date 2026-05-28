@@ -1,0 +1,177 @@
+# deepseek-balance-statusline
+
+> 🌐 [English README](README.md) | 中文文档
+
+[Claude Code](https://claude.ai) 状态栏插件，当当前激活模型为 DeepSeek 时，在状态栏中显示你的 DeepSeek 账户余额。
+
+```text
+DeepSeek 💰 ¥6.72
+```
+
+仅在 DeepSeek 模型激活时显示，非 DeepSeek 模型不会显示。
+
+## 安装
+
+在 Claude Code 实例中运行以下命令：
+
+**第一步：添加市场源**
+
+```
+claude plugin marketplace add legend80s/deepseek-balance-statusline
+```
+
+**第二步：安装插件**
+
+```
+claude plugin install deepseek-balance-statusline
+```
+
+之后启动 `claude`：
+
+```sh
+claude
+```
+
+**第三步：配置状态栏**
+
+```
+/deepseek-balance-statusline:setup
+```
+
+> 如果卡在这一步，可参考手动安装”第三步：配置状态栏“
+
+完成！重启 Claude Code 加载新的状态栏配置，之后使用 DeepSeek 模型时余额就会显示。
+
+---
+
+## 手动安装
+
+如果希望手动配置（或插件安装在你的环境中不适用）：
+
+**第一步：克隆仓库**
+
+```sh
+git clone https://github.com/legend80s/deepseek-balance-statusline
+cd deepseek-balance-statusline
+```
+
+**第二步：设置 API 密钥**
+
+将以下内容添加到 shell 配置文件中（`~/.bashrc`、`~/.bash_profile` 或 `~/.zshrc`）：
+
+```sh
+export DEEP_SEEK_API_KEY_FOR_BALANCE="sk-xxx"
+```
+
+将 `sk-xxx` 替换为你的 DeepSeek API 密钥。可在 https://platform.deepseek.com/api_keys 获取。
+
+可选的自定义 API 地址：
+
+```sh
+export BASE_URL="https://api.deepseek.com"
+```
+
+然后重新加载 shell 配置：
+
+```sh
+source ~/.bashrc
+```
+
+**第三步：配置状态栏**
+
+将 `statusLine` 字段添加到 `~/.claude/settings.json`：
+
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "node \"/path/to/deepseek-balance-statusline/deepseek-balance-statusline.ts\""
+  }
+}
+```
+
+将 `/path/to/` 替换为克隆仓库的实际路径。
+
+> **Windows + Git Bash 用户**：使用正斜杠路径，例如 `/c/Users/yourname/projects/deepseek-balance-statusline/deepseek-balance-statusline.ts`。
+
+**第四步：测试**
+
+```sh
+echo '{"model":{"display_name":"DeepSeek-V4-Flash"}}' | node deepseek-balance-statusline.ts
+```
+
+如果 API 密钥设置正确，你应该会看到类似以下的余额输出：
+
+```
+DeepSeek 💰 ¥6.27
+```
+
+**第五步：重启 Claude Code**
+
+重启 Claude Code 使状态栏生效。
+
+---
+
+## 功能说明
+
+当当前激活的模型名称包含 "DeepSeek" 时，插件会从 DeepSeek API 获取你的账户余额并显示在状态栏中：
+
+```
+DeepSeek 💰 ¥6.72
+```
+
+显示内容大约每 300ms 更新一次。如果余额获取失败（例如网络错误），则不会显示任何内容，避免干扰。
+
+## 工作原理
+
+```
+Claude Code → stdin JSON → deepseek-balance-statusline → stdout → 显示在终端
+```
+
+1. Claude Code 每 ~300ms 通过 stdin 向插件发送一个 JSON 状态负载
+2. 插件检查 `model.display_name` 是否包含 "deepseek"（不区分大小写）
+3. 如果是，则使用你的 API 密钥调用 `GET https://api.deepseek.com/user/balance`
+4. 余额以 `\r`（回车符）写入 stdout，实现原地更新
+5. 如果模型切换为非 DeepSeek，状态栏会清除
+
+## 环境变量
+
+| 变量 | 必填 | 默认值 | 说明 |
+|---|---|---|---|
+| `DEEP_SEEK_API_KEY_FOR_BALANCE` | 是 | — | 具有余额查询权限的 DeepSeek API 密钥 |
+| `BASE_URL` | 否 | `https://api.deepseek.com` | 自定义 API 地址（例如用于代理） |
+
+## 环境要求
+
+- Claude Code
+- Node.js 22.18.0+ 因为只有这个版本及以上才能直接运行 TypeScript 文件
+- DeepSeek API 密钥，获取地址：https://platform.deepseek.com/api_keys
+
+## 调试
+
+日志写入 `/tmp/claude-statusline-debug.log`：
+
+```bash
+tail -f /tmp/claude-statusline-debug.log
+```
+
+## 开发
+
+```bash
+git clone https://github.com/legend80s/deepseek-balance-statusline
+cd deepseek-balance-statusline
+pnpm install
+
+# 使用测试数据测试
+cat test/fixtures/test-data-deepseek.json | node deepseek-balance-statusline.ts
+
+# 使用实际余额测试
+DEEP_SEEK_API_KEY_FOR_BALANCE=sk-xxx cat test/fixtures/test-data-deepseek.json | node deepseek-balance-statusline.ts
+
+# 代码检查与格式化
+pnpm biome check --write .
+```
+
+## 许可证
+
+MIT
