@@ -27,7 +27,7 @@ Detect the platform:
    ```bash
    ls "${plugin_dir}"
    ```
-   Look for `deepseek-balance-statusline.ts` in the plugin dir.
+   Look for `index.ts` in the plugin dir.
 
 4. Detect shell config file:
    ```bash
@@ -101,11 +101,11 @@ cat "${CLAUDE_CONFIG_DIR:-$HOME/.claude}/settings.json" 2>/dev/null || echo "NOT
 
 **If file doesn't exist or has no statusLine**, construct the command.
 
-The command should use `node` with the plugin's source file. The plugin directory was detected in Step 1 as `plugin_dir`. The source file is `deepseek-balance-statusline.ts`.
+The command should use `node` with the plugin's source file. The plugin directory was detected in Step 1 as `plugin_dir`. The source file is `index.ts`.
 
 Generated command format:
 ```
-node "${plugin_dir}deepseek-balance-statusline.ts"
+node "${plugin_dir}index.ts"
 ```
 
 Merge statusLine into settings:
@@ -114,7 +114,7 @@ Merge statusLine into settings:
 {
   "statusLine": {
     "type": "command",
-    "command": "node \"${plugin_dir}deepseek-balance-statusline.ts\""
+    "command": "node \"${plugin_dir}index.ts\""
   }
 }
 ```
@@ -125,7 +125,7 @@ Use the Read tool to load the existing file, merge, and write back. Preserve all
 
 1. **Test the command**:
    ```bash
-   echo '{"model":{"display_name":"DeepSeek-V4-Flash"}}' | node "${plugin_dir}deepseek-balance-statusline.ts" 2>&1
+   echo '{"model":{"display_name":"DeepSeek-V4-Flash"}}' | node "${plugin_dir}index.ts" 2>&1
    ```
    Expected output: nothing (no API key in this test environment) or a balance string.
 

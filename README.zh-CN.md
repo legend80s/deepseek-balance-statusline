@@ -85,19 +85,19 @@ source ~/.bashrc
 {
   "statusLine": {
     "type": "command",
-    "command": "node \"/path/to/deepseek-balance-statusline/deepseek-balance-statusline.ts\""
+    "command": "node \"/path/to/deepseek-balance-statusline/index.ts\""
   }
 }
 ```
 
 将 `/path/to/` 替换为克隆仓库的实际路径。
 
-> **Windows + Git Bash 用户**：使用正斜杠路径，例如 `/c/Users/yourname/projects/deepseek-balance-statusline/deepseek-balance-statusline.ts`。
+> **Windows + Git Bash 用户**：使用正斜杠路径，例如 `/c/Users/yourname/projects/deepseek-balance-statusline/index.ts`。
 
 **第四步：测试**
 
 ```sh
-echo '{"model":{"display_name":"DeepSeek-V4-Flash"}}' | node deepseek-balance-statusline.ts
+echo '{"model":{"display_name":"DeepSeek-V4-Flash"}}' | node index.ts
 ```
 
 如果 API 密钥设置正确，你应该会看到类似以下的余额输出：
@@ -163,10 +163,10 @@ cd deepseek-balance-statusline
 pnpm install
 
 # 使用测试数据测试
-cat test/fixtures/test-data-deepseek.json | node deepseek-balance-statusline.ts
+cat test/fixtures/test-data-deepseek.json | node index.ts
 
 # 使用实际余额测试
-DEEP_SEEK_API_KEY_FOR_BALANCE=sk-xxx cat test/fixtures/test-data-deepseek.json | node deepseek-balance-statusline.ts
+DEEP_SEEK_API_KEY_FOR_BALANCE=sk-xxx cat test/fixtures/test-data-deepseek.json | node index.ts
 
 # 代码检查与格式化
 pnpm biome check --write .

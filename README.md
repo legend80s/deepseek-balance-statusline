@@ -85,19 +85,19 @@ Add the `statusLine` field to `~/.claude/settings.json`:
 {
   "statusLine": {
     "type": "command",
-    "command": "node \"/path/to/deepseek-balance-statusline/deepseek-balance-statusline.ts\""
+    "command": "node \"/path/to/deepseek-balance-statusline/index.ts\""
   }
 }
 ```
 
 Replace `/path/to/` with the actual path to the cloned repository.
 
-> **Windows + Git Bash users**: Use forward-slash paths, e.g. `/c/Users/yourname/projects/deepseek-balance-statusline/deepseek-balance-statusline.ts`.
+> **Windows + Git Bash users**: Use forward-slash paths, e.g. `/c/Users/yourname/projects/deepseek-balance-statusline/index.ts`.
 
 **Step 4: Test it**
 
 ```sh
-echo '{"model":{"display_name":"DeepSeek-V4-Flash"}}' | node deepseek-balance-statusline.ts
+echo '{"model":{"display_name":"DeepSeek-V4-Flash"}}' | node index.ts
 ```
 
 If the API key is set correctly, you should see the balance output like this:
@@ -163,10 +163,10 @@ cd deepseek-balance-statusline
 pnpm install
 
 # Test with fixtures
-cat test/fixtures/test-data-deepseek.json | node deepseek-balance-statusline.ts
+cat test/fixtures/test-data-deepseek.json | node index.ts
 
 # Test with actual balance
-DEEP_SEEK_API_KEY_FOR_BALANCE=sk-xxx cat test/fixtures/test-data-deepseek.json | node deepseek-balance-statusline.ts
+DEEP_SEEK_API_KEY_FOR_BALANCE=sk-xxx cat test/fixtures/test-data-deepseek.json | node index.ts
 
 # Lint & format
 pnpm biome check --write .
