@@ -22,16 +22,14 @@ process.stdin.on("end", async () => {
       //   `${colors.yellow}DeepSeek 💰 ¥ LOADING${colors.reset}`,
       // )
       log(`DeepSeek 💰 ¥ LOADING`)
-      const { getBalance } = await import("./balance.ts")
+      const { getBalance, renderBalance } = await import("./utils/balance.ts")
 
       // log(`getBalance is: ${typeof getBalance}|${getBalance.toString()}`)
 
-      const rmb = await getBalance()
-      log(`getBalance rmb: ${rmb}|${typeof rmb}`)
+      const { total_balance, currency } = await getBalance()
+      log(`getBalance: ${total_balance}|${typeof total_balance}`)
 
-      process.stdout.write(
-        `\rDeepSeek${colors.green} 💰 ¥${rmb}${colors.reset}`,
-      )
+      process.stdout.write(renderBalance({ total_balance, currency }))
     } else {
       // console.log("no DeepSeek")
     }
