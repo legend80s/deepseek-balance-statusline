@@ -15,11 +15,21 @@ const DEBOUNCE_MS = 10_000
 
 export async function getBalance() {
   const now = Date.now()
+  // log(
+  //   "cachedPromise:",
+  //   JSON.stringify({
+  //     cachedPromise: typeof cachedPromise,
+  //     now,
+  //     lastFetchTime,
+  //     gap: now - lastFetchTime,
+  //   }),
+  // )
   if (cachedPromise && now - lastFetchTime < DEBOUNCE_MS) {
     return cachedPromise
   }
 
   lastFetchTime = now
+  // log("set lastFetchTime to", now)
 
   cachedPromise = getBalanceCore({ signal: AbortSignal.timeout(3000) })
     .then((balance) => balance.balance_infos[0])

@@ -4,8 +4,16 @@ import { join } from "node:path"
 
 const LOG_FILE = join(os.tmpdir(), "claude-statusline-debug.log")
 
-export function log(message: string): Promise<void> {
-  return fs.appendFile(LOG_FILE, `${new Date().toISOString()} - ${message}\n`)
+let isFirstCall = true
+
+export function log(...messages: (string | number)[]): Promise<void> {
+  const msg = messages.join(" ")
+  const line = `${new Date().toISOString()} - ${msg}\n`
+  if (isFirstCall) {
+    isFirstCall = false
+    return fs.writeFile(LOG_FILE, line)
+  }
+  return fs.appendFile(LOG_FILE, line)
 }
 
 if (import.meta.main) {
