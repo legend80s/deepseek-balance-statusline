@@ -55,7 +55,7 @@ async function getBalanceCore(
     })
     if (!resp.ok) {
       throw new Error(
-        `getBalance failed: HTTP ${resp.status} ${resp.statusText}. DEEP_SEEK_API_KEY_FOR_BALANCE env missing (${API_KEY})`,
+        `getBalance failed: HTTP ${resp.status} ${resp.statusText}.\nDEEP_SEEK_API_KEY_FOR_BALANCE env missing (${API_KEY}). Reload terminal after added.`,
         { cause: resp },
       )
     }
