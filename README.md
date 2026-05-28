@@ -15,19 +15,19 @@ Inside a Claude Code instance, run the following commands:
 **Step 1: Add the marketplace**
 
 ```
-/plugin marketplace add legend80s/deepseek-balance-statusline
+claude plugin marketplace add legend80s/deepseek-balance-statusline
 ```
 
 **Step 2: Install the plugin**
 
 ```
-/plugin install deepseek-balance-statusline
+claude plugin install deepseek-balance-statusline
 ```
 
-After that, reload plugins:
+After that, launch `claude`:
 
-```
-/reload-plugins
+```sh
+claude
 ```
 
 **Step 3: Configure the statusline**
@@ -37,6 +37,74 @@ After that, reload plugins:
 ```
 
 Done! Restart Claude Code to load the new statusLine config, then the balance will appear when you use a DeepSeek model.
+
+---
+
+## Manual Installation
+
+If you prefer to set up manually (or the plugin install doesn't work for your environment):
+
+**Step 1: Clone the repository**
+
+```sh
+git clone https://github.com/legend80s/deepseek-balance-statusline
+cd deepseek-balance-statusline
+```
+
+**Step 2: Set the API key**
+
+Add the following to your shell config file (`~/.bashrc`, `~/.bash_profile`, or `~/.zshrc`):
+
+```sh
+export DEEP_SEEK_API_KEY_FOR_BALANCE="sk-xxx"
+```
+
+Replace `sk-xxx` with your DeepSeek API key. Get one at https://platform.deepseek.com/api_keys.
+
+Optionally set a custom API base URL:
+
+```sh
+export BASE_URL="https://api.deepseek.com"
+```
+
+Then reload your shell config:
+
+```sh
+source ~/.bashrc
+```
+
+**Step 3: Configure the status line**
+
+Add the `statusLine` field to `~/.claude/settings.json`:
+
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "node \"/path/to/deepseek-balance-statusline/deepseek-balance-statusline.ts\""
+  }
+}
+```
+
+Replace `/path/to/` with the actual path to the cloned repository.
+
+> **Windows + Git Bash users**: Use forward-slash paths, e.g. `/c/Users/yourname/projects/deepseek-balance-statusline/deepseek-balance-statusline.ts`.
+
+**Step 4: Test it**
+
+```sh
+echo '{"model":{"display_name":"DeepSeek-V4-Flash"}}' | node deepseek-balance-statusline.ts
+```
+
+If the API key is set correctly, you should see the balance output like this:
+
+```
+DeepSeek 💰 ¥6.27
+```
+
+**Step 5: Restart Claude Code**
+
+Restart Claude Code for the status line to take effect.
 
 ---
 
