@@ -4,7 +4,7 @@
 
 A [Claude Code](https://claude.ai) plugin that shows your DeepSeek account balance in the status line when the active model is DeepSeek.
 
-```text
+```ts
 DeepSeek 💰 ¥6.72
 ```
 
@@ -16,13 +16,13 @@ Inside a Claude Code instance, run the following commands:
 
 **Step 1: Add the marketplace**
 
-```
+```sh
 claude plugin marketplace add legend80s/deepseek-balance-statusline
 ```
 
 **Step 2: Install the plugin**
 
-```
+```sh
 claude plugin install deepseek-balance-statusline
 ```
 
@@ -34,7 +34,7 @@ claude
 
 **Step 3: Configure the statusline**
 
-```
+```sh
 /deepseek-balance-statusline:setup
 ```
 
@@ -63,7 +63,7 @@ Add the following to your shell config file (`~/.bashrc`, `~/.bash_profile`, or 
 export DEEP_SEEK_API_KEY_FOR_BALANCE="sk-xxx"
 ```
 
-Replace `sk-xxx` with your DeepSeek API key. Get one at https://platform.deepseek.com/api_keys.
+Replace `sk-xxx` with your DeepSeek API key. Get one at <https://platform.deepseek.com/api_keys>.
 
 Optionally set a custom API base URL:
 
@@ -102,7 +102,7 @@ echo '{"model":{"display_name":"DeepSeek-V4-Flash"}}' | node index.ts
 
 If the API key is set correctly, you should see the balance output like this:
 
-```
+```ts
 DeepSeek 💰 ¥6.27
 ```
 
@@ -116,7 +116,7 @@ Restart Claude Code for the status line to take effect.
 
 When your active model contains "DeepSeek" in its name, the plugin fetches your account balance from the DeepSeek API and displays it in the status line:
 
-```
+```ts
 DeepSeek 💰 ¥6.72
 ```
 
@@ -124,7 +124,7 @@ The display updates every ~300ms with the latest balance. If the balance fetch f
 
 ## How it works
 
-```
+```ts
 Claude Code → stdin JSON → deepseek-balance-statusline → stdout → displayed in terminal
 ```
 
@@ -145,7 +145,7 @@ Claude Code → stdin JSON → deepseek-balance-statusline → stdout → displa
 
 - Claude Code
 - **Node.js 22.18.0+** (only this version and higher can run TypeScript files directly).
-- A DeepSeek API key from https://platform.deepseek.com/api_keys
+- A DeepSeek API key from <https://platform.deepseek.com/api_keys>
 
 ## Debugging
 
