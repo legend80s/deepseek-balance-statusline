@@ -1,4 +1,5 @@
 import { colors } from "./console.ts"
+import { log } from "./logger.ts"
 
 const {
   BASE_URL = "https://api.deepseek.com",
@@ -8,12 +9,27 @@ const {
 // console.log("BASE_URL:", BASE_URL)
 // console.log("API_KEY:", API_KEY)
 
+let lastFetchTime = 0
+let cachedPromise: Promise<BalanceInfo> | null = null
+const DEBOUNCE_MS = 10_000
+
 export async function getBalance() {
-  const balance = await getBalanceCore({ signal: AbortSignal.timeout(3000) })
+  const now = Date.now()
+  if (cachedPromise && now - lastFetchTime < DEBOUNCE_MS) {
+    return cachedPromise
+  }
 
-  // console.log("balance:", balance)
+  lastFetchTime = now
 
-  return balance.balance_infos[0]
+  cachedPromise = getBalanceCore({ signal: AbortSignal.timeout(3000) })
+    .then((balance) => balance.balance_infos[0])
+    .catch((error) => {
+      // 清除缓存的 Promise，允许重试
+      cachedPromise = null
+      throw error
+    })
+
+  return cachedPromise
 }
 
 export function renderBalance({
@@ -47,8 +63,11 @@ function resolveColorByLevel(total_balance: number): string {
 async function getBalanceCore(
   opts: { signal?: AbortSignal } = {},
 ): Promise<UserBalance> {
+  const url = `${BASE_URL}/user/balance`
+  log(`fetching ${url}`)
+
   try {
-    const resp = await fetch(`${BASE_URL}/user/balance`, {
+    const resp = await fetch(url, {
       method: "GET",
       headers: { Authorization: `Bearer ${API_KEY}` },
       signal: opts.signal,
