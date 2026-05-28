@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
+import plugin from "./.claude-plugin/plugin.json" with { type: "json" }
 import { colors } from "./utils/console.ts"
 import { log } from "./utils/logger.ts"
 
-log(`start`)
+log(`BEGIN`)
+log(`${plugin.name}@${plugin.version}`)
 
 let input = ""
 
@@ -42,5 +44,5 @@ process.stdin.on("end", async () => {
     log(`${msg}→stack:${err.stack}`)
   }
 
-  // console.log("done")
+  log("END\n")
 })
