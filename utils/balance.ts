@@ -10,6 +10,12 @@ const {
 // console.log("API_KEY:", API_KEY)
 
 let lastFetchTime = 0
+// CC's every call of statusline API is a new node.js process: `node xx.ts`
+// Thus this cache strategy only work in a single Node.js process
+// when a new status API call lastFetchTime cachedPromise is always reset
+// TODO:
+// use file as multiple process cache and use sync file reading to avoid multiple values read
+// but call to deepseek api to get balance is not a big thing so the cache solution is not urgent
 let cachedPromise: Promise<BalanceInfo> | null = null
 const DEBOUNCE_MS = 10_000
 
