@@ -33,11 +33,21 @@ process.stdin.on("end", async () => {
       const state = readState()
       if (!state) {
         since = new Date().toISOString().slice(0, 10)
-        writeState({ cumulativeSpent: 0, lastBalance: currentBalance, since })
+        writeState({
+          cumulativeSpent: 0,
+          lastBalance: currentBalance,
+          _lastBalance: currentBalance,
+          since,
+        })
         spent = 0
       } else {
+        // console.log("state.lastBalance:", {
+        //   lastBalance: state.lastBalance,
+        //   currentBalance,
+        // })
         const consumption = Math.max(0, state.lastBalance - currentBalance)
         state.cumulativeSpent += consumption
+        state._lastBalance = state.lastBalance
         state.lastBalance = currentBalance
         writeState(state)
         spent = state.cumulativeSpent

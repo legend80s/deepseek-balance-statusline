@@ -5,6 +5,7 @@ import { join } from "node:path"
 interface BalanceState {
   cumulativeSpent: number
   lastBalance: number
+  _lastBalance: number
   since: string
 }
 
