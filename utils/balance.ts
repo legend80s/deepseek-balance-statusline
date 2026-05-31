@@ -61,7 +61,7 @@ export function renderBalance({
 }): string {
   const color = resolveColorByLevel(Number(currentBalance))
   const symbol = currency === "CNY" ? "¥" : currency === "USD" ? "$" : ""
-  return `🐳 💰 ${color}${symbol}${currentBalance}${colors.reset} | Spent ${symbol}${colors.bold}${spent.toFixed(2)}${colors.reset} (Since ${since})`
+  return `🐳 ${color}${symbol}${currentBalance}${colors.reset} | Spent 💰 ${symbol}${colors.cyan}${spent.toFixed(2)}${colors.reset} (Since ${since})`
 }
 
 function resolveColorByLevel(total_balance: number): string {
