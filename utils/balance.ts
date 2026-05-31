@@ -49,12 +49,19 @@ export async function getBalance() {
 }
 
 export function renderBalance({
-  total_balance,
+  currentBalance,
   currency,
-}: BalanceInfo): string {
-  const color = resolveColorByLevel(Number(total_balance))
+  spent,
+  since,
+}: {
+  currentBalance: string
+  currency: string
+  spent: number
+  since: string
+}): string {
+  const color = resolveColorByLevel(Number(currentBalance))
   const symbol = currency === "CNY" ? "¥" : currency === "USD" ? "$" : ""
-  return `🐳${color} ${symbol}${total_balance} ${colors.reset}`
+  return `🐳 💰 Balance ${color}${symbol}${currentBalance}${colors.reset} | Spent ${symbol}${spent.toFixed(2)} (Since ${since})`
 }
 
 function resolveColorByLevel(total_balance: number): string {
@@ -108,7 +115,7 @@ async function getBalanceCore(
 
 if (import.meta.main) {
   const balance = await getBalanceCore()
-  console.log("balance:", balance?.balance_infos[0].total_balance)
+  console.log("balance:", balance?.balance_infos)
 }
 
 interface BalanceInfo {

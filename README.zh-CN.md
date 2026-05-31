@@ -2,10 +2,10 @@
 
 > 🌐 [English README](README.md) | 中文文档
 
-[Claude Code](https://claude.ai) 状态栏插件，当当前激活模型为 DeepSeek 时，在状态栏中显示你的 DeepSeek 账户余额。
+[Claude Code](https://claude.ai) 状态栏插件，当当前激活模型为 DeepSeek 时，在状态栏中显示你的 DeepSeek 账户余额和累计花费。
 
 ```text
-DeepSeek 💰 ¥6.72
+🐳 💰 Balance ¥6.72 | Spent ¥1.00 (Since 2026-05-31)
 ```
 
 仅在 DeepSeek 模型激活时显示，非 DeepSeek 模型不会显示。
@@ -100,10 +100,10 @@ source ~/.bashrc
 echo '{"model":{"display_name":"DeepSeek-V4-Flash"}}' | node index.ts
 ```
 
-如果 API 密钥设置正确，你应该会看到类似以下的余额输出：
+如果 API 密钥设置正确，你应该会看到类似以下的余额和花费输出：
 
 ```
-DeepSeek 💰 ¥6.27
+🐳 💰 Balance ¥6.27 | Spent ¥0.00 (Since 2026-05-31)
 ```
 
 **第五步：重启 Claude Code**
@@ -114,11 +114,13 @@ DeepSeek 💰 ¥6.27
 
 ## 功能说明
 
-当当前激活的模型名称包含 "DeepSeek" 时，插件会从 DeepSeek API 获取你的账户余额并显示在状态栏中：
+当当前激活的模型名称包含 "DeepSeek" 时，插件会从 DeepSeek API 获取你的账户余额，并显示当前余额和累计花费：
 
 ```
-DeepSeek 💰 ¥6.72
+🐳 💰 Balance ¥6.72 | Spent ¥1.00 (Since 2026-05-31)
 ```
+
+`Spent` 通过持久化到 `~/.deepseek-balance/state.json` 实现跨进程累计，只增不减，充值也不会重置。
 
 显示内容大约每 300ms 更新一次。如果余额获取失败（例如网络错误），则不会显示任何内容，避免干扰。
 
@@ -131,8 +133,14 @@ Claude Code → stdin JSON → deepseek-balance-statusline → stdout → 显示
 1. Claude Code 每 ~300ms 通过 stdin 向插件发送一个 JSON 状态负载
 2. 插件检查 `model.display_name` 是否包含 "deepseek"（不区分大小写）
 3. 如果是，则使用你的 API 密钥调用 `GET https://api.deepseek.com/user/balance`
-4. 余额以 `\r`（回车符）写入 stdout，实现原地更新
-5. 如果模型切换为非 DeepSeek，状态栏会清除
+4. 读取 `~/.deepseek-balance/state.json` 追踪跨进程的累计花费：
+   - **首次运行**：记录当前余额作为基线，写入 `state.json`
+   - **后续运行**：计算 `consumption = max(0, previousBalance - currentBalance)`，累加到 `cumulativeSpent`，然后写回
+   - **充值检测**：若 `currentBalance > previousBalance`，consumption 为 0，花费不会减少
+5. 结果以 `\r`（回车符）写入 stdout，实现原地更新
+6. 如果模型切换为非 DeepSeek，状态栏会清除
+
+> 状态文件：`~/.deepseek-balance/state.json` — 存储 `{ cumulativeSpent, lastBalance, since }`。可安全删除，下次运行会自动创建新的基线。
 
 ## 环境变量
 

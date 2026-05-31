@@ -2,10 +2,10 @@
 
 > 🌐 English README | [中文文档](README.zh-CN.md)
 
-A [Claude Code](https://claude.ai) plugin that shows your DeepSeek account balance in the status line when the active model is DeepSeek.
+A [Claude Code](https://claude.ai) plugin that shows your DeepSeek account balance and cumulative spending in the status line when the active model is DeepSeek.
 
 ```ts
-DeepSeek 💰 ¥6.72
+🐳 💰 Balance ¥6.72 | Spent ¥1.00 (Since 2026-05-31)
 ```
 
 Only appears when a DeepSeek model is active. Non-DeepSeek models show nothing.
@@ -100,10 +100,10 @@ Replace `/path/to/` with the actual path to the cloned repository.
 echo '{"model":{"display_name":"DeepSeek-V4-Flash"}}' | node index.ts
 ```
 
-If the API key is set correctly, you should see the balance output like this:
+If the API key is set correctly, you should see the balance and spending output like this:
 
 ```ts
-DeepSeek 💰 ¥6.27
+🐳 💰 Balance ¥6.27 | Spent ¥0.00 (Since 2026-05-31)
 ```
 
 **Step 5: Restart Claude Code**
@@ -114,11 +114,13 @@ Restart Claude Code for the status line to take effect.
 
 ## What it does
 
-When your active model contains "DeepSeek" in its name, the plugin fetches your account balance from the DeepSeek API and displays it in the status line:
+When your active model contains "DeepSeek" in its name, the plugin fetches your account balance from the DeepSeek API and displays both the current balance and cumulative spending in the status line:
 
 ```ts
-DeepSeek 💰 ¥6.72
+🐳 💰 Balance ¥6.72 | Spent ¥1.00 (Since 2026-05-31)
 ```
+
+The `Spent` value tracks total consumption across sessions by persisting state to `~/.deepseek-balance/state.json`. It only goes up — recharges don't reset it.
 
 The display updates every ~300ms with the latest balance. If the balance fetch fails (e.g. network error), nothing is shown to avoid clutter.
 
@@ -131,8 +133,14 @@ Claude Code → stdin JSON → deepseek-balance-statusline → stdout → displa
 1. Claude Code sends a JSON status payload to the plugin via stdin every ~300ms
 2. The plugin checks if `model.display_name` contains "deepseek" (case-insensitive)
 3. If yes, it calls `GET https://api.deepseek.com/user/balance` with your API key
-4. The balance is written to stdout with `\r` (carriage return) to update in-place
-5. If the model changes away from DeepSeek, the status line clears
+4. It reads `~/.deepseek-balance/state.json` to track cumulative spending across processes:
+   - **First run**: records current balance as the baseline, writes `state.json`
+   - **Subsequent runs**: computes `consumption = max(0, previousBalance - currentBalance)`, adds it to `cumulativeSpent`, then writes the updated state
+   - **Recharge detected**: if `currentBalance > previousBalance`, consumption is 0 — spent never decreases
+5. The result is written to stdout with `\r` (carriage return) to update in-place
+6. If the model changes away from DeepSeek, the status line clears
+
+> State file: `~/.deepseek-balance/state.json` — stores `{ cumulativeSpent, lastBalance, since }`. Safe to delete; a new baseline will be created on the next run.
 
 ## Environment Variables
 

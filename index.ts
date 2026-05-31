@@ -20,18 +20,38 @@ process.stdin.on("end", async () => {
     log(`model: ${model}`)
 
     if (model.toLowerCase().includes("deepseek")) {
-      // process.stdout.write(
-      //   `${colors.yellow}DeepSeek 💰 ¥ LOADING${colors.reset}`,
-      // )
       log(`DeepSeek 💰 ¥ LOADING`)
       const { getBalance, renderBalance } = await import("./utils/balance.ts")
+      const { readState, writeState } = await import("./utils/state.ts")
 
-      // log(`getBalance is: ${typeof getBalance}|${getBalance.toString()}`)
+      const balanceInfo = await getBalance()
+      const currentBalance = Number(balanceInfo.total_balance)
 
-      const { total_balance, currency } = await getBalance()
-      // console.log(`getBalance: ${total_balance}|${typeof total_balance}`)
+      let spent: number
+      let since: string
 
-      process.stdout.write(renderBalance({ total_balance, currency }))
+      const state = readState()
+      if (!state) {
+        since = new Date().toISOString().slice(0, 10)
+        writeState({ cumulativeSpent: 0, lastBalance: currentBalance, since })
+        spent = 0
+      } else {
+        const consumption = Math.max(0, state.lastBalance - currentBalance)
+        state.cumulativeSpent += consumption
+        state.lastBalance = currentBalance
+        writeState(state)
+        spent = state.cumulativeSpent
+        since = state.since
+      }
+
+      process.stdout.write(
+        renderBalance({
+          currentBalance: balanceInfo.total_balance,
+          currency: balanceInfo.currency,
+          spent,
+          since,
+        }),
+      )
     } else {
       // console.log("no DeepSeek")
     }
