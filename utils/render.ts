@@ -6,17 +6,19 @@ export function render({
   currency,
   spent,
   since,
+  showModel,
 }: {
   model: string
   currentBalance: string
   currency: string
   spent: number
   since: string
+  showModel: boolean
 }): string {
   const color = resolveColorByLevel(Number(currentBalance))
   const symbol = currency === "CNY" ? "¥" : currency === "USD" ? "$" : ""
-  // 💰 ¥6.72 | 💸 ¥1.00 (Since 2026-05-31) | 🐳 DeepSeek-V4-Pro[1m]
-  return `💰 ${color}${symbol}${currentBalance}${colors.reset} | 💸 ${colors.cyan}${symbol}${spent.toFixed(2)}${colors.reset} (Since ${since}) | 🐳 ${model}`
+  const modelTag = showModel ? ` | 🐳 ${model}` : ""
+  return `💰 ${color}${symbol}${currentBalance}${colors.reset} | 💸 ${colors.cyan}${symbol}${spent.toFixed(2)}${colors.reset} (Since ${since})${modelTag}`
 }
 
 function resolveColorByLevel(total_balance: number): string {

@@ -3,7 +3,6 @@
 import plugin from "./.claude-plugin/plugin.json" with { type: "json" }
 import { colors } from "./utils/console.ts"
 import { log } from "./utils/logger.ts"
-import { render } from "./utils/render.ts"
 
 log(`BEGIN`)
 log(`${plugin.name}@${plugin.version}`)
@@ -17,10 +16,10 @@ process.stdin.on("data", (chunk) => {
 process.stdin.on("end", async () => {
   try {
     const data = JSON.parse(input)
-    const model: string = data.model?.display_name
+    const model: string | undefined = data.model?.display_name
     log(`model: ${model}`)
 
-    if (model.toLowerCase().includes("deepseek")) {
+    if (model && model.toLowerCase().includes("deepseek")) {
       log(`DeepSeek 💰 ¥ LOADING`)
       // Lazy loading for zero performance impact on non-deep-seek models.
       const { render } = await import("./utils/render.ts")
@@ -41,13 +40,10 @@ process.stdin.on("end", async () => {
           lastBalance: currentBalance,
           _lastBalance: currentBalance,
           since,
+          lastModel: model,
         })
         spent = 0
       } else {
-        // console.log("state.lastBalance:", {
-        //   lastBalance: state.lastBalance,
-        //   currentBalance,
-        // })
         const consumption = Math.max(0, state.lastBalance - currentBalance)
         state.cumulativeSpent += consumption
         state._lastBalance = state.lastBalance
@@ -57,6 +53,12 @@ process.stdin.on("end", async () => {
         since = state.since
       }
 
+      const modelChanged = !!state?.lastModel && model !== state.lastModel
+      if (modelChanged || (state && !state.lastModel)) {
+        state.lastModel = model
+        writeState(state)
+      }
+
       process.stdout.write(
         render({
           model,
@@ -64,6 +66,7 @@ process.stdin.on("end", async () => {
           currency: balanceInfo.currency,
           spent,
           since,
+          showModel: modelChanged,
         }),
       )
     } else {

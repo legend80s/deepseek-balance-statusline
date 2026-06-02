@@ -7,6 +7,7 @@ interface BalanceState {
   lastBalance: number
   _lastBalance: number
   since: string
+  lastModel?: string
 }
 
 const STATE_DIR = join(homedir(), ".deepseek-balance")
