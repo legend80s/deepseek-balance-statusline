@@ -4,11 +4,25 @@
 
 [Claude Code](https://claude.ai) 状态栏插件，当当前激活模型为 DeepSeek 时，在状态栏中显示你的 DeepSeek 账户余额和累计花费。
 
-```text
+```ts
 💰 ¥6.72 | 💸 ¥1.00 (Since 2026-05-31) | 🐳 DeepSeek-V4-Pro[1m]
 ```
 
 仅在 DeepSeek 模型激活时显示，非 DeepSeek 模型不会显示。
+
+## 展示原则
+
+信息干净 & 不打扰原则：
+
+1. 非 DeepSeek 模型不展示任何信息。
+1. 已有信息不重复展示：项目所在目录不展示、git 分支不展示、时间不展示，这些是 Terminal 或其他工具应该展示的。
+2. 只在恰当时机展示模型名：
+  - 首次打开 Claude Code 不展示，因为 Claude Code 会展示。
+  - 切换模型方展示
+
+性能原则
+
+- 非 DeepSeek 模型性能应该无损：所有操作包括请求、计算、渲染、甚至函数的导入都是 Lazy import。**渐进式披露**
 
 ## 安装
 
@@ -16,13 +30,13 @@
 
 **第一步：添加市场源**
 
-```
+```sh
 claude plugin marketplace add legend80s/deepseek-balance-statusline
 ```
 
 **第二步：安装插件**
 
-```
+```sh
 claude plugin install deepseek-balance-statusline
 ```
 
@@ -34,7 +48,7 @@ claude
 
 **第三步：配置状态栏**
 
-```
+```sh
 /deepseek-balance-statusline:setup
 ```
 
@@ -102,7 +116,7 @@ echo '{"model":{"display_name":"DeepSeek-V4-Flash"}}' | node index.ts
 
 如果 API 密钥设置正确，你应该会看到类似以下的余额和花费输出：
 
-```
+```ts
 🐳 💰 Balance ¥6.27 | Spent ¥0.00 (Since 2026-05-31)
 ```
 

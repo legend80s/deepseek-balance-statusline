@@ -10,6 +10,18 @@ A [Claude Code](https://claude.ai) plugin that shows your DeepSeek account balan
 
 Only appears when a DeepSeek model is active. Non-DeepSeek models show nothing.
 
+## Display Principles
+
+**Non-intrusive & Clean**
+
+1. No info for non-DeepSeek models.
+2. No duplicate info: directory, Git branch, and time are terminal's job.
+3. Show model name only when switching models (not on first launch, as Claude Code already does).
+
+**Performance**
+
+No overhead for non-DeepSeek models: lazy import for all operations (requests, computation, rendering, function imports). **Progressive disclosure**
+
 ## Install
 
 Inside a Claude Code instance, run the following commands:

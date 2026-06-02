@@ -19,6 +19,7 @@ process.stdin.on("end", async () => {
     const model: string | undefined = data.model?.display_name
     log(`model: ${model}`)
 
+    // biome-ignore lint/complexity/useOptionalChain: verbose but intent more obvious
     if (model && model.toLowerCase().includes("deepseek")) {
       log(`DeepSeek 💰 ¥ LOADING`)
       // Lazy loading for zero performance impact on non-deep-seek models.
