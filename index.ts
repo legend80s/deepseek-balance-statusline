@@ -3,6 +3,7 @@
 import plugin from "./.claude-plugin/plugin.json" with { type: "json" }
 import { colors } from "./utils/console.ts"
 import { log } from "./utils/logger.ts"
+import { render } from "./utils/render.ts"
 
 log(`BEGIN`)
 log(`${plugin.name}@${plugin.version}`)
@@ -21,7 +22,9 @@ process.stdin.on("end", async () => {
 
     if (model.toLowerCase().includes("deepseek")) {
       log(`DeepSeek 💰 ¥ LOADING`)
-      const { getBalance, renderBalance } = await import("./utils/balance.ts")
+      // Lazy loading for zero performance impact on non-deep-seek models.
+      const { render } = await import("./utils/render.ts")
+      const { getBalance } = await import("./utils/balance.ts")
       const { readState, writeState } = await import("./utils/state.ts")
 
       const balanceInfo = await getBalance()
@@ -55,7 +58,8 @@ process.stdin.on("end", async () => {
       }
 
       process.stdout.write(
-        renderBalance({
+        render({
+          model,
           currentBalance: balanceInfo.total_balance,
           currency: balanceInfo.currency,
           spent,

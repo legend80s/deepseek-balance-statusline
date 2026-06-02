@@ -1,11 +1,11 @@
 # deepseek-balance-statusline
 
-> 🌐 [English README](README.md) | 中文文档
+> 🌐 [English](README.md) | 中文文档
 
 [Claude Code](https://claude.ai) 状态栏插件，当当前激活模型为 DeepSeek 时，在状态栏中显示你的 DeepSeek 账户余额和累计花费。
 
 ```text
-🐳 💰 Balance ¥6.72 | Spent ¥1.00 (Since 2026-05-31)
+💰 ¥6.72 | 💸 ¥1.00 (Since 2026-05-31) | 🐳 DeepSeek-V4-Pro[1m]
 ```
 
 仅在 DeepSeek 模型激活时显示，非 DeepSeek 模型不会显示。

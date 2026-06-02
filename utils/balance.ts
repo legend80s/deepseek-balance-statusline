@@ -1,4 +1,3 @@
-import { colors } from "./console.ts"
 import { log } from "./logger.ts"
 
 const {
@@ -46,36 +45,6 @@ export async function getBalance() {
     })
 
   return cachedPromise
-}
-
-export function renderBalance({
-  currentBalance,
-  currency,
-  spent,
-  since,
-}: {
-  currentBalance: string
-  currency: string
-  spent: number
-  since: string
-}): string {
-  const color = resolveColorByLevel(Number(currentBalance))
-  const symbol = currency === "CNY" ? "¥" : currency === "USD" ? "$" : ""
-  return `🐳 ${color}${symbol}${currentBalance}${colors.reset} | Spent 💰 ${colors.cyan}${symbol}${spent.toFixed(2)}${colors.reset} (Since ${since})`
-}
-
-function resolveColorByLevel(total_balance: number): string {
-  switch (true) {
-    case total_balance < 1: {
-      return colors.red
-    }
-    case total_balance < 6: {
-      return colors.yellow
-    }
-    default: {
-      return colors.green
-    }
-  }
 }
 
 /**

@@ -1,6 +1,6 @@
 # deepseek-balance-statusline
 
-> 🌐 English README | [中文文档](README.zh-CN.md)
+> 🌐 English | [中文文档](README.zh-CN.md)
 
 A [Claude Code](https://claude.ai) plugin that shows your DeepSeek account balance and cumulative spending in the status line when the active model is DeepSeek.
 
@@ -97,7 +97,7 @@ Replace `/path/to/` with the actual path to the cloned repository.
 **Step 4: Test it**
 
 ```sh
-echo '{"model":{"display_name":"DeepSeek-V4-Flash"}}' | node index.ts
+echo '{"model":{"display_name":"DeepSeek-V4-Flash[1m]"}}' | node index.ts
 ```
 
 If the API key is set correctly, you should see the balance and spending output like this:
