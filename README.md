@@ -54,9 +54,8 @@ claude
 
 Done! Restart Claude Code to load the new statusLine config, then the balance will appear when you use a DeepSeek model.
 
----
 
-## Manual Installation
+### Manual Installation Using Clone
 
 If you prefer to set up manually (or the plugin install doesn't work for your environment):
 
@@ -122,7 +121,19 @@ If the API key is set correctly, you should see the balance and spending output 
 
 Restart Claude Code for the status line to take effect.
 
----
+### npm Install
+
+**Step 1: Install globally**
+
+```sh
+npm install -g @legend80s/deepseek-balance-statusline
+```
+
+**Step 2: Set the API key**
+
+Same as manual install — add `DEEP_SEEK_API_KEY_FOR_BALANCE` to your shell config (see below).
+
+Run `deepseek-balance` directly in your terminal to check your balance anytime.
 
 ## What it does
 

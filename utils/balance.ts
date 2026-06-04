@@ -52,7 +52,7 @@ export async function getBalance() {
  * @param opts
  * @returns
  */
-async function getBalanceCore(
+export async function getBalanceCore(
   opts: { signal?: AbortSignal } = {},
 ): Promise<UserBalance> {
   const url = `${BASE_URL}/user/balance`

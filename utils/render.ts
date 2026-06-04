@@ -1,5 +1,23 @@
 import { colors } from "./console.ts"
 
+type IRenderProps = {
+  model: string
+  currentBalance: string
+  currency: string
+  spent: number
+  since: string
+  showModel: boolean
+}
+
+export function renderBalanceOnly({
+  currentBalance,
+  currency,
+}: Pick<IRenderProps, "currency" | "currentBalance">): string {
+  const color = resolveColorByLevel(Number(currentBalance))
+  const symbol = currency === "CNY" ? "¥" : currency === "USD" ? "$" : ""
+  return `💰 ${color}${symbol}${currentBalance}${colors.reset}`
+}
+
 export function render({
   model,
   currentBalance,
@@ -7,18 +25,10 @@ export function render({
   spent,
   since,
   showModel,
-}: {
-  model: string
-  currentBalance: string
-  currency: string
-  spent: number
-  since: string
-  showModel: boolean
-}): string {
-  const color = resolveColorByLevel(Number(currentBalance))
+}: IRenderProps): string {
   const symbol = currency === "CNY" ? "¥" : currency === "USD" ? "$" : ""
   const modelTag = showModel ? ` | 🐳 ${model}` : ""
-  return `💰 ${color}${symbol}${currentBalance}${colors.reset} | 💸 ${colors.cyan}${symbol}${spent.toFixed(2)}${colors.reset} (Since ${since})${modelTag}`
+  return `${renderBalanceOnly({ currency, currentBalance })} | 💸 ${colors.cyan}${symbol}${spent.toFixed(2)}${colors.reset} (Since ${since})${modelTag}`
 }
 
 function resolveColorByLevel(total_balance: number): string {

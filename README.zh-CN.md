@@ -56,9 +56,9 @@ claude
 
 完成！重启 Claude Code 加载新的状态栏配置，之后使用 DeepSeek 模型时余额就会显示。
 
----
+**第四步：重启 Claude Code**
 
-## 手动安装
+### 手动 clone 安装
 
 如果希望手动配置（或插件安装在你的环境中不适用）：
 
@@ -124,7 +124,21 @@ echo '{"model":{"display_name":"DeepSeek-V4-Flash"}}' | node index.ts
 
 重启 Claude Code 使状态栏生效。
 
----
+### npm 全局安装
+
+作为全局 CLI 工具安装（无需克隆仓库）：
+
+**第一步：全局安装**
+
+```sh
+npm install -g @legend80s/deepseek-balance-statusline
+```
+
+**第二步：设置 API 密钥**
+
+与手动安装相同——将 `DEEP_SEEK_API_KEY_FOR_BALANCE` 添加到你的 shell 配置文件中。
+
+终端中运行 `deepseek-balance` 随时查看余额。
 
 ## 功能说明
 

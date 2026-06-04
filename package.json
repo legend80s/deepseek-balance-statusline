@@ -1,5 +1,8 @@
 {
-  "name": "deepseek-balance-statusline",
+  "name": "@legend80s/deepseek-balance-statusline",
+  "bin": {
+    "deepseek-balance": "./bin.ts"
+  },
   "type": "module",
   "version": "0.0.1",
   "description": "Real-time DeepSeek balance statusline for Claude Code",
